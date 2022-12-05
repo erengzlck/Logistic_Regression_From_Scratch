@@ -98,7 +98,7 @@ class Logistic_Regression():
         grad = np.dot(x.transpose(), (y_hat - y))
         return grad
 
-    def fit(self, X, y, learning_rate=0.001):
+    def fit(self, X, y):
         accuracies = []
         if self.distribution == 'Gaussian':
             weights = np.random.normal(0,1,size = (X.shape[1], 1))
