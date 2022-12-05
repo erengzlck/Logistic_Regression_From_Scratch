@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 
 class Logistic_Regression():
-    def __init__(self, distribution, method, learning_rate):
+    def __init__(self, distribution, method, learning_rate, epochs):
+        self.epochs = epochs
         self.distribution = distribution
         self.learning_rate = learning_rate
         method = method.split('_')
@@ -105,9 +106,8 @@ class Logistic_Regression():
             weights = np.random.uniform(size = (X.shape[1], 1))
         elif self.distribution == 'Zeros':
             weights = np.zeros((X.shape[1], 1))
-        epochs = 100
         if self.method == 'Full-Batch':
-            for itr in range(epochs):
+            for itr in range(self.epochs):
                 weights = weights - self.learning_rate * self.gradient(X, y, weights)
                 self.weights = weights
                 predicted = self.predict(self.x_val)
@@ -118,7 +118,7 @@ class Logistic_Regression():
             self.weights = weights
            
         elif self.method == 'Mini-Batch':
-            for itr in range(epochs):
+            for itr in range(self.epochs):
                 mini_batches = self.create_mini_batches(X, y, batch_size = self.batch_size)
                 for mini_batch in mini_batches:
                     X_mini, y_mini = mini_batch
@@ -133,7 +133,7 @@ class Logistic_Regression():
             
         elif self.method == 'Stochastic':
             m = len(y)
-            for itr in range(epochs):
+            for itr in range(self.epochs):
                 for i in range(m):
                     n = np.random.randint(0,m)
                     X_i = X[n, :].reshape(1, X.shape[1])
